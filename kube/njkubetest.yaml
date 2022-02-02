@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: njkubetest
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: njkubetest
+    spec:
+      containers:
+      - name: njkubetest
+        image: rs/njkubetest:1.0
+        ports:
+        - containerPort: 3000
+        env:
+          - name: MONGO_URI
+            value: mongodb+srv://rootmongotest:rootmongotest@testcluster1.imcvk.mongodb.net/test
+        imagePullPolicy: Always
