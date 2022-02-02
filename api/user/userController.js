@@ -65,7 +65,7 @@ exports.delete_user = function (req, res) {
                 if (err){
                     res.send(err);
                 }
-                return res.json({username : user.username});
+                return res.json({username : user.username, status: 0});
             });
         }
     });
