@@ -33,11 +33,16 @@ exports.logged_in = function (req, res) {
             if(!user.getpass(req.body.password)) {
                 res.status(403).json({message : 'Authentication failed. Wrong password.'});
             } else {
-                return res.json({token : jwt.sign({
-                    email : user.email,
-                    username : user.username,
-                    _id : user._id
-                }, 'TESTRESTFULAPIs')});
+                if(user.role != 'admin') {
+                    res.status(403).json({message : 'Can\'t display details. Lack of credential'});
+                } else {
+                    return res.json({token : jwt.sign({
+                        email : user.email,
+                        username : user.username,
+                        status : user.status,
+                        _id : user._id,
+                    }, 'TESTRESTFULAPIs')});
+                }
             }
         }
     });
@@ -61,12 +66,16 @@ exports.delete_user = function (req, res) {
         if (!user) {
             res.status(403).json({message : 'No user found.'});
         } else if (user) {
-            User.findByIdAndUpdate({_id: user._id}, req.body, function (err, user) {
-                if (err){
-                    res.send(err);
-                }
-                return res.json({username : user.username, status: 0});
-            });
+            if(user.role != 'admin' && user.email != req.body.email) {
+                res.status(403).json({message : 'Can\'t display details. Lack of credential'});
+            } else {
+                User.findByIdAndUpdate({_id: user._id}, req.body, function (err, user) {
+                    if (err){
+                        res.send(err);
+                    }
+                    return res.json({username : user.username, status: 0});
+                });
+            }
         }
     });
 };

@@ -10,7 +10,8 @@ const UserSchema = new Schema({
     hash_pswd: { type: String, required: true},
     dtCreated: { type: Date, default: Date.now()},
     dtModified: { type: Date, default: Date.now()},
-    status: { type:Integer, required: true},
+    status: { type: Integer, required: true}, //ACTIVE or INACTIVE -> active or deleted
+    role: { type: String, required: true}, //ADMIN or REG -> admin or regular user
 });
 
 //hashing pass

@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: njkubetest
+  name: nodejs-microservice-mongo-jwt
 spec:
+  selector:
+    matchLabels:
+      app: nodejs-microservice-mongo-jwt
   replicas: 2
   template:
     metadata:
       labels:
-        app: njkubetest
+        app: nodejs-microservice-mongo-jwt
     spec:
       containers:
-      - name: njkubetest
-        image: rs/njkubetest:1.0
+      - name: nodejs-microservice-mongo-jwt
+        image: rs/nodejs-microservice-mongo-jwt:1.0
         ports:
         - containerPort: 3000
         env:
           - name: MONGO_URI
             value: mongodb+srv://rootmongotest:rootmongotest@testcluster1.imcvk.mongodb.net/test
         imagePullPolicy: Always
+        resources: 
+          - limits:
+            memory: 512Mi
