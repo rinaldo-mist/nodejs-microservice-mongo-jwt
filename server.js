@@ -28,3 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/routes', routers);
+
+app.listen(PORT, (req, res) => {
+    console.log(`Listen on port ${PORT} `);
+});
